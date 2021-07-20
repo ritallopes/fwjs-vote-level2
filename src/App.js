@@ -1,13 +1,16 @@
-import './styles.css';
-import Booth from './Booth';
+import VotacaoCard from './VotacaoCard';
+import {useState} from 'react';
 
 
 function App() {
+  const opcoes = [{opcao: "não", quantidade: 10}, {opcao: "sim", quantidade: 1}]
+  const [estado] = useState('open');
+
   return (
-    <div className="App">
-      <header className="App-header">
+    <div>
+      <header >
         <p>
-          <Booth/>
+          <VotacaoCard texto="titulooo" open={true} opcoes={opcoes}/>
         </p>
       </header>
     </div>
