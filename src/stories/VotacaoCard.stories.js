@@ -1,25 +1,26 @@
 import React from 'react';
 
-import VotacaoCard, { Page } from './../VotacaoCard';
+import VotacaoCard from './../VotacaoCard';
+
 
 
 export default {
     title: 'Votacao/VotacaoCard',
     component: VotacaoCard,
-    argTypes: { onVoto: { action: 'clicked' } },
 };
 
 const Template = (args) => <VotacaoCard {...args} />;
 
-export const Open1 = Template.bind({});
-Open1.args = {
-    texto: "Dia lindoooo>",
-    open: true,
-    opcoes: [{ opcao: "Realmente", quantidade: 10 }, { opcao: "Com certeza", quantidade: 100}]
+export const Open = Template.bind({});
+Open.args = {
+    texto: "Dia lindoooo?",
+    estado: 'open',
+    opcoes: [{ opcao: "Realmente", quantidade: 1 }, { opcao: "Com certeza", quantidade: 99}]
 };
-export const Open2 = Template.bind({});
-Open2.args = {
+export const Closed = Template.bind({});
+Closed.args = {
     texto: "Noite legal?",
-    open: true,
+    estado: 'closed',
     opcoes: [{ opcao: "Realmente", quantidade: 10 }, { opcao: "Talvez", quantidade: 0}]
 };
+

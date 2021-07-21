@@ -1,14 +1,13 @@
 import React from 'react';
 
-import Cabine from './../Cabine';
+import Resultado from './../Resultado';
 
 export default {
-    title: 'Votacao/Cabine',
-    component: Cabine,
-    argTypes: { onVoto: { action: 'clicked' } },
+    title: 'Votacao/Resultado',
+    component: Resultado,
 };
 
-const Template = (args) => <Cabine {...args} />;
+const Template = (args) => <Resultado {...args} />;
 
 export const Exemplo1 = Template.bind({});
 Exemplo1.args = {
