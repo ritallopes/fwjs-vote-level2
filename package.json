@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "chromatic": "^5.10.0-canary.0"
+  }
+}
