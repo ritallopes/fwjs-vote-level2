@@ -67,11 +67,11 @@ export default function VotacaoForm(props) {
     if (errorsIsEmpty && touchedAll && allTrue) {
       // transforma em aray novamente antes de enviar
       const opcoes = [
-        v.primeiraOpcao,
-        v.segundaOpcao,
-        v.terceiraOpcao,
-        v.quartaOpcao
-      ].filter(o => o.trim() !== "");
+        {opcao: v.primeiraOpcao, quantidade:0},
+        {opcao: v.segundaOpcao, quantidade:0},
+        {opcao: v.terceiraOpcao, quantidade:0},
+        {opcao: v.quartaOpcao, quantidade:0}
+      ].filter(o => o.opcao.trim() !== "");
 
       props.onUpdate({
         pergunta: v.pergunta,

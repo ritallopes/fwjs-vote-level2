@@ -16,13 +16,15 @@ export default function Votacao({
         <button onClick={() => onRemove(i)}>Remover</button>
       </p>
       <p>
-        Respostas:{" "}
-        {opcoes.map((opcao, i) => (
-          <span>
-            {opcao.opcao}
-            {i === opcoes.length - 1 ? "" : "/"}
-          </span>
-        ))}
+        Respostas:
+        {opcoes.map((op, i) => {
+          return (
+            <span key={i}>
+              {op.opcao}
+              {i === opcoes.length - 1 ? "" : "/"}
+            </span>
+          );
+        })}
       </p>
     </div>
   );

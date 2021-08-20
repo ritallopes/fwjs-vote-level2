@@ -5,9 +5,11 @@ import VotacaoCard from "./VotacaoCard";
 import useVotacoes from './votacoes-hooks';
 
 export default function VotacaoList(props) {
+  const votes= [{pergunta: "Pegunta 11",opcoes : [{opcao: "não", quantidade: 10}, {opcao: "sim", quantidade: 1}]}, {pergunta: "Pegunta 122",opcoes : [{opcao: "não", quantidade: 10}, {opcao: "sim", quantidade: 1}]}]
+
   const [mode, setMode] = useState("view");
   const [current, setCurrent] = useState(null);
-  const {votacoes, adicionarVotacao, atualizarVotacao, removerVotacao } = useVotacoes();
+  const {votacoes, adicionarVotacao, atualizarVotacao, removerVotacao } = useVotacoes(votes);
 
   function editVotacao(index) {
     setMode("edit");
@@ -15,20 +17,22 @@ export default function VotacaoList(props) {
   }
   const addVotacao = () => {
     adicionarVotacao();
-    setCurrent(votacoes.length);
     setMode('add');
+    setCurrent(votacoes.length);
   }
   const deleteVotacao = (index) => {
     removerVotacao(index);
   }
   const realizarVotacao = (index) => {
-    setCurrent(index)
-    setMode('vote')
+    setCurrent(index);
+    setMode('vote');
   }
 
   const salvarMudancas = (votacao) => {
     atualizarVotacao(votacao, current);
     setMode('view');
+    setCurrent(current);
+    console.log(votacoes[current])
   }
 
   const cancelarMudancas = () => {

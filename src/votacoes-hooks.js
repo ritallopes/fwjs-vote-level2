@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function useVotacoes() {
-  const [votacoes, setVotacoes] = useState([]);
+export default function useVotacoes(props) {
+  const [votacoes, setVotacoes] = useState(props?props:[]);
 
   const adicionarVotacao = () => {
     const novaVotacao = { pergunta: "", opcoes: [] };
