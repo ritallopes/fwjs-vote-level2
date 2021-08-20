@@ -2,25 +2,24 @@ import React, { useState } from "react";
 import VotacaoForm from "./VotacaoForm";
 import Votacao from "./Votacao";
 import VotacaoCard from "./VotacaoCard";
+import useVotacoes from './votacoes-hooks';
 
 export default function VotacaoList(props) {
-  const [votacoes, setVotacoes] = useState(props.votacoes);
   const [mode, setMode] = useState("view");
   const [current, setCurrent] = useState(null);
+  const {votacoes, adicionarVotacao, atualizarVotacao, removerVotacao } = useVotacoes();
 
-  function editarVotacao(index) {
+  function editVotacao(index) {
     setMode("edit");
     setCurrent(index);
-    console.log(votacoes[index]);
   }
-  const adicionarVotacao = () => {
-    const novaVotacao = {pergunta:'',opcoes : []}
-    setVotacoes([...votacoes, novaVotacao])
-    setCurrent(votacoes.length)
-    setMode('add')
+  const addVotacao = () => {
+    adicionarVotacao();
+    setCurrent(votacoes.length);
+    setMode('add');
   }
-  const removerVotacao = (index) => {
-    setVotacoes([... votacoes.slice(0, index), ...votacoes.slice(index + 1)])
+  const deleteVotacao = (index) => {
+    removerVotacao(index);
   }
   const realizarVotacao = (index) => {
     setCurrent(index)
@@ -28,26 +27,22 @@ export default function VotacaoList(props) {
   }
 
   const salvarMudancas = (votacao) => {
-    setVotacoes([
-      ...votacoes.slice(0, current),
-      votacao,
-      ...votacoes.slice(current + 1)
-    ])
-    setMode('view')
+    atualizarVotacao(votacao, current);
+    setMode('view');
   }
 
   const cancelarMudancas = () => {
     if (mode === 'add') {
         removerVotacao(votacoes.length - 1)
       }
-      setMode('view')
+      setMode('view');
   }
 
   return (
     <>
-      {mode === "view" && votacoes && (
+      {mode === "view" && (
         <div>
-          <button onClick={adicionarVotacao}>Adicionar Votacao</button>
+          <button onClick={addVotacao}>Adicionar Votacao</button>
           {votacoes.map((votacao, i) => {
             return (
               <Votacao
@@ -55,10 +50,10 @@ export default function VotacaoList(props) {
                 pergunta={votacao.pergunta}
                 opcoes={votacao.opcoes}
                 onEdit={index => {
-                  editarVotacao(index);
+                  editVotacao(index);
                 }}
                 onRemove={index => {
-                    removerVotacao(index);
+                    deleteVotacao(index);
                 }}
                 onVote={index => {
                    realizarVotacao(index);

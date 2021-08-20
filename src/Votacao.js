@@ -9,7 +9,7 @@ export default function Votacao({
   onVote
 }) {
   return (
-    <div>
+    <div key={i}>
       <p>
         Pergunta: {pergunta} <button onClick={() => onVote(i)}>Votar</button>
         <button onClick={() => onEdit(i)}>Editar</button>
