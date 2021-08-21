@@ -5,7 +5,7 @@ import VotacaoCard from "./VotacaoCard";
 import useVotacoes from './votacoes-hooks';
 
 export default function VotacaoList(props) {
-  const votes= [{pergunta: "Pegunta 11",opcoes : [{opcao: "não", quantidade: 10}, {opcao: "sim", quantidade: 1}]}, {pergunta: "Pegunta 122",opcoes : [{opcao: "não", quantidade: 10}, {opcao: "sim", quantidade: 1}]}]
+  const votes = props.votacoes;
 
   const [mode, setMode] = useState("view");
   const [current, setCurrent] = useState(null);
@@ -42,15 +42,19 @@ export default function VotacaoList(props) {
       setMode('view');
   }
 
+  const voltarParaLista =() =>{
+    setMode('view');
+  }
+
   return (
     <>
       {mode === "view" && (
         <div>
           <button onClick={addVotacao}>Adicionar Votacao</button>
-          {votacoes.map((votacao, i) => {
+          {votacoes && votacoes.map((votacao, i) => {
             return (
               <Votacao
-                i={i}
+                index={i}
                 pergunta={votacao.pergunta}
                 opcoes={votacao.opcoes}
                 onEdit={index => {
@@ -68,9 +72,9 @@ export default function VotacaoList(props) {
         </div>
       )}
 
-      {(mode === 'edit' || mode === 'add') && <VotacaoForm votacao={votacoes[current]} onUpdate={(votacao) => salvarMudancas(votacao)} onCancel={() => cancelarMudancas()}/>}
+      {(mode === 'edit' || mode === 'add') && <VotacaoForm vote={votacoes[current]} onUpdate={(votacao) => salvarMudancas(votacao)} onCancel={() => cancelarMudancas()} />}
 
-      {mode === 'vote' && <VotacaoCard texto={votacoes[current].pergunta} estado={'open'} opcoes={votacoes[current].opcoes} />}
+      {mode === 'vote' && <VotacaoCard texto={votacoes[current].pergunta} estado={'open'} opcoes={votacoes[current].opcoes} onExit={() => voltarParaLista()}/>}
     </>
   );
 }

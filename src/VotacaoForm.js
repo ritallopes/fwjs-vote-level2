@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { minTamValidacao, campoRequeridoValidacao } from "./validacao";
+import PropTypes from 'prop-types';
+
 
 const validacao = {
   pergunta: value => minTamValidacao(5, value),
@@ -7,13 +9,13 @@ const validacao = {
   segundaOpcao: campoRequeridoValidacao
 };
 
-export default function VotacaoForm(props) {
+export default function VotacaoForm({vote, onUpdate, onCancel}) {
   const [votacao, setVotacao] = useState({
-    pergunta: props.votacao.pergunta || "",
-    primeiraOpcao: props.votacao.opcoes[0] || "",
-    segundaOpcao: props.votacao.opcoes[1] || "",
-    terceiraOpcao: props.votacao.opcoes[2] || "",
-    quartaOpcao: props.votacao.opcoes[3] || ""
+    pergunta: vote.pergunta? (vote.pergunta || ""):null,
+    primeiraOpcao: vote.opcoes[0]?(vote.opcoes[0].opcao || ""):null,
+    segundaOpcao: vote.opcoes[1]?(vote.opcoes[1].opcao  || ""):null,
+    terceiraOpcao: vote.opcoes[2]?(vote.opcoes[2].opcao  || ""):null,
+    quartaOpcao: vote.opcoes[3]?(vote.opcoes[3].opcao  || ""):null
   });
 
   const [errors, setErrors] = useState({});
@@ -38,10 +40,10 @@ export default function VotacaoForm(props) {
 
   function onSubmit(e) {
     e.preventDefault();
-    const v = votacao;
+    const v_local = votacao;
     // percorre a questão validando todos os itens
-    const validation = Object.keys(v).reduce((acc, key) => {
-      const error = validacao[key] && validacao[key](v[key]);
+    const validation = Object.keys(v_local).reduce((acc, key) => {
+      const error = validacao[key] && validacao[key](v_local[key]);
       return {
         errors: {
           ...acc.errors,
@@ -60,28 +62,28 @@ export default function VotacaoForm(props) {
     const errorValues = Object.values(validation.errors);
     const touchedValues = Object.values(validation.touched);
     const errorsIsEmpty = errorValues.length === 0;
-    const touchedAll = touchedValues.length === Object.values(v).length;
+    const touchedAll = touchedValues.length === Object.values(v_local).length;
     const allTrue = touchedValues.every(t => t === true);
 
     // se isso ocorrer, então pode atualizaros dados
     if (errorsIsEmpty && touchedAll && allTrue) {
       // transforma em aray novamente antes de enviar
       const opcoes = [
-        {opcao: v.primeiraOpcao, quantidade:0},
-        {opcao: v.segundaOpcao, quantidade:0},
-        {opcao: v.terceiraOpcao, quantidade:0},
-        {opcao: v.quartaOpcao, quantidade:0}
-      ].filter(o => o.opcao.trim() !== "");
+        {opcao: v_local.primeiraOpcao, quantidade: vote.opcoes[0]?(vote.opcoes[0].quantidade || 0):0},
+        {opcao: v_local.segundaOpcao, quantidade: vote.opcoes[1]?(vote.opcoes[1].quantidade  || 0):0},
+        {opcao: v_local.terceiraOpcao, quantidade:vote.opcoes[2]?(vote.opcoes[2].quantidade  || 0):0},
+        {opcao: v_local.quartaOpcao,  quantidade:vote.opcoes[3]?(vote.opcoes[3].quantidade  || 0):0}
+      ].filter(o => o.opcao? o.opcao.trim() !== "":null);
 
-      props.onUpdate({
-        pergunta: v.pergunta,
+      onUpdate({
+        pergunta: v_local.pergunta,
         opcoes
       });
     }
   }
   
   function onCancel(e) {
-    props.onCancel();
+    onCancel();
   }
 
   const commonProps = {
@@ -94,7 +96,7 @@ export default function VotacaoForm(props) {
 
   return (
     <form onSubmit={onSubmit}>
-      <h2>Edita questão</h2>
+      <h2>Editar Votação</h2>
       <Input
         type="textarea"
         label="Pergunta"
@@ -130,9 +132,15 @@ export default function VotacaoForm(props) {
         {...commonProps}
       />
       <input type="submit" value="Atualizar" />
-      <button onClick={onCancel}>Cancelar</button>
+      <button onClick={onCancel}>Sair</button>
     </form>
   );
+}
+
+VotacaoForm.propTypes = {
+  vote: PropTypes.any,
+  onUpdate: PropTypes.func,
+  onCancel: PropTypes.func
 }
 
 
@@ -156,9 +164,9 @@ function Error({ touched, error }) {
 }
 
 export function Input({
-  type, // input (detfault) ou textarea
-  label, // label (opcional)
-  name, // identificador
+  type, 
+  label, 
+  name, 
   placeholder,
   values,
   onChange,

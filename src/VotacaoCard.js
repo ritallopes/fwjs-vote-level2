@@ -5,7 +5,7 @@ import {useState} from 'react';
 import PropTypes from 'prop-types';
 
 
-export default function VotacaoCard({ texto, estado, opcoes }) {
+export default function VotacaoCard({ texto, estado, opcoes, onExit }) {
 	const [resposta, setResposta] = useState(null);
 	function onVoto(i) {
 		setResposta(i-1);
@@ -18,7 +18,8 @@ export default function VotacaoCard({ texto, estado, opcoes }) {
 			{
 				resposta === null && estado==='open' ? <Cabine opcoes={opcoes} onVoto={onVoto} /> : <Resultado opcoes={opcoes} />
 			}
-			
+			<br/>
+			<button onClick={onExit}>Voltar</button>
 		</div>
 	)
 }
@@ -27,5 +28,6 @@ VotacaoCard.propTypes = {
 	texto: PropTypes.string,
 	opcoes: PropTypes.array,
 	onVoto: PropTypes.func,
+	onExit: PropTypes.func,
 	estado: PropTypes.oneOf(['open', 'closed']),
   };

@@ -1,7 +1,9 @@
 import React from "react";
+import PropTypes from 'prop-types';
+
 
 export default function Votacao({
-  i,
+  index,
   pergunta,
   opcoes,
   onEdit,
@@ -9,19 +11,19 @@ export default function Votacao({
   onVote
 }) {
   return (
-    <div key={i}>
+    <div key={index}>
       <p>
-        Pergunta: {pergunta} <button onClick={() => onVote(i)}>Votar</button>
-        <button onClick={() => onEdit(i)}>Editar</button>
-        <button onClick={() => onRemove(i)}>Remover</button>
+        Pergunta: {pergunta} <button onClick={() => onVote(index)}>Votar</button>
+        <button onClick={() => onEdit(index)}>Editar</button>
+        <button onClick={() => onRemove(index)}>Remover</button>
       </p>
       <p>
         Respostas:
-        {opcoes.map((op, i) => {
+        {opcoes.map((op, i_) => {
           return (
-            <span key={i}>
+            <span key={i_}>
               {op.opcao}
-              {i === opcoes.length - 1 ? "" : "/"}
+              {i_ === opcoes.length - 1 ? "" : "/"}
             </span>
           );
         })}
@@ -29,3 +31,12 @@ export default function Votacao({
     </div>
   );
 }
+
+Votacao.propTypes = {
+	opcoes: PropTypes.array,
+  onVote: PropTypes.func,
+  index: PropTypes.string,
+  pergunta: PropTypes.string,
+  onEdit: PropTypes.func,
+  onRemove: PropTypes.func,
+};
