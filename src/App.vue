@@ -1,22 +1,20 @@
 <template>
   <div id="app">
-    <VotacaoCard :titulo="titulo" :opcoes="opcoes" :estado="estado"></VotacaoCard>
+    <VotacaoList :votacoes="titulo"></VotacaoList>
   </div>
 </template>
 
 <script>
-import VotacaoCard from './components/VotacaoCard';
+import VotacaoList from './components/VotacaoList';
 
 export default {
   name: 'App',
   components: {
-    VotacaoCard
+    VotacaoList
   },
   data: function() {
     return {
-      titulo: 'Pergunta??',
-      opcoes: [{ opcao: "Realmente", quantidade: 10 }, { opcao: "Talvez", quantidade: 0}],
-      estado: 'open'
+    votacoes: [{pergunta: "Pegunta 11",opcoes : [{opcao: "não", quantidade: 10},{opcao: "talvez", quantidade: 11}, {opcao: "sim", quantidade: 1}]}, {pergunta: "Pegunta 122",opcoes : [{opcao: "não", quantidade: 10}, {opcao: "sim", quantidade: 1}]}]
     }
   }
 }
