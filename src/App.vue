@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <VotacaoList :votacoes="titulo"></VotacaoList>
+    <VotacaoList :votacoes="votacoes"></VotacaoList>
   </div>
 </template>
 

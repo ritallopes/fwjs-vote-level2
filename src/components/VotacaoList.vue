@@ -1,19 +1,16 @@
 <template>
   <div>
-    <h1>{{votacoes[0].pergunta}}</h1>
+    <h1>{{votacoes}}</h1>
     
   </div>
 </template>
 
 <script>
-import VotacaoCard from './VotacaoCard';
-import VotacaoForm from './VotacaoForm';
 
 export default {
   name: 'VotacaoList',
   components: {
-    VotacaoCard,
-    VotacaoList
+   
   },
   props:['votacoes'],
   methods:{
